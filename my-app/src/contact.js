@@ -39,6 +39,68 @@ class ContactForm extends React.Component {
 
 
 
+countries=[
+    {
+        'display':'Singapore',
+        'value':'singapore'
+    },
+    {
+        'display':'Malaysia',
+        'value':'malaysia'
+    },
+    {
+        'display':'Indonesia',
+        'value':'indonesia'
+    }
+]
+
+fruits=[
+    {
+        'display':'Apple',
+        'value':'apple'},
+        {
+            'display':'Banana',
+            'value': 'banana'
+        },
+        {
+            'display': 'Cherries',
+            'value': 'cherries'
+        }
+    ]
+
+    colours=[
+        {
+            'display':'Red',
+            'value': 'red'
+        },
+        {
+            'display': 'Green',
+            'value': 'green'
+        },
+        {
+            'display': 'Blue',
+            'value': 'blue'
+        }
+    ]
+
+    
+    renderColours(){
+            let options = [];
+            for (let colours of this.colours){
+                let e = (
+                    <React.Fragment key={colours.value}>
+                        <input name='colours' type='radio' value={colours.value}
+                        checked={this.state.colours===colours.value} 
+                        onChange={this.updateFormField}
+                       />
+                   <span>{colours.display}</span>
+                    </React.Fragment>
+                )
+                options.push(e)
+            }
+            return options;
+        }
+
     render() {
         return (
             <React.Fragment>
@@ -59,6 +121,28 @@ class ContactForm extends React.Component {
                     <input type='checkbox' name='fruits' value ='pear' checked={this.state.fruits.includes('pear')} onChange={this.updateCheckBox}/>Pear
                     <input type='checkbox' name='fruits' value ='banana' checked={this.state.fruits.includes('banana')} onChange={this.updateCheckBox}/>Banana<br/>
                 <button onClick={this.SubmitForm}>Submit</button>
+
+                <div>
+                    <label>Favourite Colour:</label>
+                    {this.renderColours()}
+                </div>
+                <div>
+	            <label>Country:</label>
+	                <select name="country" value={this.state.country} onChange={this.updateFormField}>
+                    {this.countries.map( (c)=><option key={c.value}  value={c.value}>{c.display}</option>)}
+                </select>
+                </div>
+
+                {this.fruits.map( (f)=>(
+	            <React.Fragment>
+		            <input type="checkbox" 
+			        key={f.value}
+			        name="fruits" 
+			        value={f.value}
+			        checked={this.state.fruits.includes(f.value)}
+			        onChange={this.updateCheckBox}/><span>{f.display}</span>
+	            </React.Fragment>
+                ))}
             </React.Fragment>
         )
     }
