@@ -1,44 +1,17 @@
 import React from 'react'
+import axios from 'axios'
+
 
 class ContactForm extends React.Component {
     state={
         name: '',
         color: '',
         country: 'Singapore',
-        fruits: []
+        fruits: [],
+        countries: []
     }
 
-    updateFormField = (event) => {
-        this.setState({
-            [event.target.name]: event.target.value,
-        })
-    }
-
-    updateCheckBox= (event) =>{
-        let currentValues= this.state[event.target.name];
-        let modifiedValues;
-        if (!currentValues.includes(event.target.value))
-        {
-            modifiedValues = [...currentValues, event.target.value];
-        }
-        else{
-            modifiedValues = currentValues.filter((element)=>{
-                return element !== event.target.value;
-            })
-        
-        }
-        this.setState({
-            fruits: modifiedValues
-        })
-    }
     
-    SubmitForm = () =>{
-        alert(this.state.name + ", " + this.state.country + ' ' + this.state.color
-            )
-    }
-
-
-
 countries=[
     {
         'display':'Singapore',
@@ -82,6 +55,61 @@ fruits=[
             'value': 'blue'
         }
     ]
+
+
+    updateFormField = (event) => {
+        this.setState({
+            [event.target.name]: event.target.value,
+        })
+    }
+
+    updateCheckBox= (event) =>{
+        let currentValues= this.state[event.target.name];
+        let modifiedValues;
+        if (!currentValues.includes(event.target.value))
+        {
+            modifiedValues = [...currentValues, event.target.value];
+        }
+        else{
+            modifiedValues = currentValues.filter((element)=>{
+                return element !== event.target.value;
+            })
+        
+        }
+        this.setState({
+            fruits: modifiedValues
+        })
+    }
+    
+    SubmitForm = () =>{
+        alert(this.state.name + ", " + this.state.country + ' ' + this.state.color
+            )
+    }
+
+    componentDidMount() {
+        axios.get('./countries.json').then(r=>this.countries=r.data);
+        axios.get('./fruits.json').then(r=>{
+            this.fruits=r.data
+        });
+    }
+
+    renderFruits() {
+        let options = [];
+        console.log(this.fruits);
+        for (let fruit of this.fruits) {
+        let e =   (<React.Fragment  key={fruit.value}>
+                         <input name="fruits" type="radio" value={fruit.value} 
+                         checked={this.state.fruits===fruit.value} 
+                         onChange={this.updateFormField}
+                        />
+                    <span>{fruit.display}</span>
+                  </React.Fragment>)
+
+            options.push(e)
+        }
+        return options;
+    }
+
 
     
     renderColours(){
@@ -133,7 +161,7 @@ fruits=[
                 </select>
                 </div>
 
-                {this.fruits.map( (f)=>(
+                {this.fruits.map((f)=>(
 	            <React.Fragment>
 		            <input type="checkbox" 
 			        key={f.value}
@@ -143,6 +171,11 @@ fruits=[
 			        onChange={this.updateCheckBox}/><span>{f.display}</span>
 	            </React.Fragment>
                 ))}
+
+<div>
+				<label>Fruits:</label>
+				{this.renderFruits()}
+			</div>
             </React.Fragment>
         )
     }
