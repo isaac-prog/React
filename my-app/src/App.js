@@ -3,6 +3,7 @@ import React from 'react'
 import ImageFrame from './Image'
 import EvenOdd from './Lab02'
 import ContactForm from './contact'
+import TaskList from './tasklist'
 
 function App(){
   return(
@@ -10,6 +11,7 @@ function App(){
       <ImageFrame/>
       <EvenOdd/>
       <ContactForm/>
+      <TaskList/>
     </React.Fragment>
   )
 }
