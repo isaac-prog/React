@@ -4,14 +4,16 @@ import ImageFrame from './Image'
 import EvenOdd from './Lab02'
 import ContactForm from './contact'
 import TaskList from './tasklist'
+import TestList from './test'
 
 function App(){
   return(
     <React.Fragment>
-      <ImageFrame/>
+      {/* <ImageFrame/>
       <EvenOdd/>
-      <ContactForm/>
+      <ContactForm/> */}
       <TaskList/>
+      <TestList/>
     </React.Fragment>
   )
 }
