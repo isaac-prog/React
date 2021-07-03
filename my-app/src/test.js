@@ -1,45 +1,63 @@
 import React from 'react'
 
-export default class TestList extends React.Component {
+export default class TaskList extends React.Component {
     state = {
         'tasks': [
             {
                 id: 1,
                 description: 'walk the dog',
+                case: 'mid',
                 done: false
             },
             {
                 id: 2,
                 description: 'water plants',
+                case:'mid',
                 done: false
             },
             {
                 id: 3,
                 description: 'pay bills',
+                case: 'low',
                 done: false
             }
         ],
         newTaskName: "",
+        taskBeingEdited: 0,
         modifiedTaskName: ""
     }
 
-    checkTask = (task_id) => {
-        let currentTask = this.state.tasks.filter(t => t.id === task_id)[0];
+   
+
+
+
+
+    checkTask = (event) => {
+        for(var i=0;i<this.state.tasks.length;i++){
+        let currentTask = this.state.tasks.filter(t => t.case === event)[0];
+        console.log('case:' + currentTask.case)
+        console.log(event)
         let modifiedTask = { ...currentTask };
+        console.log(currentTask)
         modifiedTask.done = !currentTask.done;
+        console.log(modifiedTask.done)
         let modifiedTasksList = this.state.tasks.map(t => {
-            if (t.id !== task_id) {
-                console.log("untick")
+            if (modifiedTask.done === true) {
+                console.log(t,'t')
                 return t;
             } else {
-                console.log("tick")
+                console.log(modifiedTask,'m')
                 return modifiedTask;
             }
         })
         this.setState({
             'tasks': modifiedTasksList
         })
+        console.log(this.state.tasks)
     }
+    }
+
+    
 
     displayTask = t => {
         return (
@@ -47,23 +65,26 @@ export default class TestList extends React.Component {
                 {t.description}
                 <input
                     type="checkbox"
-                    value={t.description === true}
                     onChange={() => {
-                        this.checkTask(t.id);
+                        this.checkTask(t.case);
                     }}
                 />
+                
             </li>
         );
     };
 
+   
+
     // t refers to each category. e.g. t={id:...,description:...,done....}
     render() {
         return (<React.Fragment>
-            <h1>To Do List</h1>
+            
             <ul>
                 {/* if else statement turnary operator '?',':' */}
             {this.state.tasks.map(t => this.state.taskBeingEdited !== t.id ? this.displayTask(t) : this.displayEditTask(t))}
             </ul>
+           
         </React.Fragment>
         )
     }

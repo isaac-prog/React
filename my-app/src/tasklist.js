@@ -50,8 +50,10 @@ export default class TaskList extends React.Component {
         modifiedTask.done = !currentTask.done;
         let modifiedTasksList = this.state.tasks.map(t => {
             if (t.id !== task_id) {
+                console.log(t)
                 return t;
             } else {
+                console.log(modifiedTask)
                 return modifiedTask;
             }
         })
